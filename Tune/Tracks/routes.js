@@ -1,7 +1,6 @@
 import * as dao from "./dao.js";
 
 export default function TrackRoutes(app) {
-
   const createTrack = async (req, res) => {
     const track = await dao.createTrack(req.body);
     res.json(track);
@@ -37,10 +36,9 @@ export default function TrackRoutes(app) {
     res.json(status);
   };
 
-
-  app.post("/api/tracks", createTrack);
-  app.get("/api/tracks", findAllTracks);
   app.get("/api/tracks/:trackId", findTrackById);
   app.put("/api/tracks/:trackId", updateTrack);
   app.delete("/api/tracks/:trackId", deleteTrack);
+  app.post("/api/tracks", createTrack);
+  app.get("/api/tracks", findAllTracks);
 }

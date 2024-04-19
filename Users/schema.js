@@ -20,10 +20,16 @@ const userSchema = new mongoose.Schema(
         ref: "Users",
         type: mongoose.Schema.Types.ObjectId,
       }],
-      tracks: [],
-      likedTracks: [],
+      tracks: [{
+        ref: "Tracks",
+        type: mongoose.Schema.Types.ObjectId,
+      }],
+      likedTracks: [{
+        ref: "Tracks",
+        type: mongoose.Schema.Types.ObjectId,
+      }],
     },
-    {collection: "users"}
+    { collection: "users" }
 );
 
 export default userSchema;

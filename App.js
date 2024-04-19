@@ -7,7 +7,6 @@ import SpotifyRoutes from "./Spotify/routes.js";
 import TuneRoutes from "./Tune/routes.js";
 import UserRoutes from "./Users/routes.js";
 import "dotenv/config";
-import SocialRoutes from "./Tune/Social/routes.js";
 
 const CONNECTION_STRING =
     process.env.DB_CONNECTION_STRING || "mongodb://127.0.0.1:27017/tune";
@@ -30,11 +29,16 @@ if (process.env.NODE_ENV !== "development") {
 }
 
 const app = express();
+app.use(
+    cors({
+      credentials: true,
+      origin: process.env.FRONTEND_URL,
+    })
+)
 app.use(session(sessionOptions));
 app.use(express.json());
 Health(app);
 SpotifyRoutes(app);
-// SocialRoutes(app)
 TuneRoutes(app);
 UserRoutes(app);
 app.listen(process.env.PORT || 4000);
