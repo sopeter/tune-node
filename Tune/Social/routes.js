@@ -31,7 +31,7 @@ export default function SocialRoutes(app) {
   }
 
   app.post("/api/social/follow/:uid", followUser);
-  app.delete("/api/social/unfollow/:uid", unfollowUser);
+  app.delete("/api/social/follow/:uid", unfollowUser);
   app.get("/api/social/following/:uid", getAllFollowing);
   app.get("/api/social/followers/:uid", getAllFollowers);
 }
