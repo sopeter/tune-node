@@ -31,8 +31,17 @@ export default function LikeRoutes(app) {
     res.json(likedTracksPlaylist);
   }
 
+  const areLikedTracks = async (req, res) => {
+    const spotifyTracks = req.body;
+    const currentUser = req.session.currentUser;
+    const likedTracks = await dao.findAllLikedTracks(currentUser._id);
+    const likedBool = spotifyTracks.map((id) => likedTracks.includes(id));
+    res.json(likedBool);
+  }
+
   app.post("/api/likes/track", likeTrack);
   app.delete("/api/likes/track/:trackId", unlikeTrack);
   app.get("/api/likes/track", getAllLikedTracks);
   app.get("/api/likes/likePlaylist", getAllLikedTracksPlaylist);
+  app.post("/api/likes/track/compare", areLikedTracks);
 }
