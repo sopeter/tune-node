@@ -23,10 +23,10 @@ export default function TrackRoutes(app) {
     res.json(track);
   };
 
-  // THINK ABOUT URI
-  const findTrackByName = async (req, res) => {
-    const { name } = req.params;
-    const track = await dao.findTrackByName(name);
+
+  const findTrackBySpotifyId = async (req, res) => {
+    const { spotifyId } = req.params;
+    const track = await dao.findTrackBySpotifyId(spotifyId);
     res.json(track);
   };
 
@@ -37,6 +37,7 @@ export default function TrackRoutes(app) {
   };
 
   app.get("/api/tracks/:trackId", findTrackById);
+  app.get("/api/tracks/spotify/:spotifyId", findTrackBySpotifyId);
   app.put("/api/tracks/:trackId", updateTrack);
   app.delete("/api/tracks/:trackId", deleteTrack);
   app.post("/api/tracks", createTrack);
