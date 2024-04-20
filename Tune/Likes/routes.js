@@ -1,4 +1,5 @@
 import * as dao from "./dao.js";
+import { buildSpotifyPlaylist } from "../../Spotify/SpotifyResponseBuilder.js";
 
 export default function LikeRoutes(app) {
   const likeTrack = async (req, res) => {
@@ -23,7 +24,15 @@ export default function LikeRoutes(app) {
     res.json(likedTracks);
   }
 
+  const getAllLikedTracksPlaylist = async (req, res) => {
+    const currentUser = req.session.currentUser
+    const likedTracks = await dao.findAllLikedTracks(currentUser._id);
+    const likedTracksPlaylist = await buildSpotifyPlaylist(likedTracks);
+    res.json(likedTracksPlaylist);
+  }
+
   app.post("/api/likes/track", likeTrack);
   app.delete("/api/likes/track/:trackId", unlikeTrack);
   app.get("/api/likes/track", getAllLikedTracks);
+  app.get("/api/likes/likePlaylist", getAllLikedTracksPlaylist);
 }
