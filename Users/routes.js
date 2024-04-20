@@ -23,7 +23,8 @@ export default function UserRoutes(app) {
   };
 
   const findUserById = async (req, res) => {
-    const user = await dao.findUserById(req.params.userId);
+    const { userId } = req.params;
+    const user = await dao.findUserById(userId);
     res.json(user);
   };
 
@@ -61,13 +62,16 @@ export default function UserRoutes(app) {
     res.sendStatus(200);
   };
 
+  // TODO: Redundant with findUserById
   const profile = async (req, res) => {
+    const { userId } = req.params;
     const currentUser = req.session.currentUser;
     if (!currentUser) {
       res.sendStatus(401);
       return;
     }
-    res.json(currentUser);
+    const user = await dao.findUserById(userId);
+    res.json(user);
   };
 
   app.post("/api/users", createUser);
@@ -78,5 +82,5 @@ export default function UserRoutes(app) {
   app.post("/api/users/register", register);
   app.post("/api/users/signIn", signIn);
   app.post("/api/users/signOut", signOut);
-  app.post("/api/users/profile", profile);
+  app.post("/api/users/profile/:userId", profile);
 }
