@@ -23,3 +23,7 @@ export const findAllLikedTracks = async (userId) => {
   const user = await userModel.findById(userId).populate("likedTracks");
   return user.likedTracks;
 }
+
+function isLikedTrack() {
+  
+}

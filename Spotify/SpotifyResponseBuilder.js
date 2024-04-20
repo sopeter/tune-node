@@ -6,7 +6,7 @@ export async function buildSpotifyPlaylist(data) {
   response.id = "";
   response.image = "";
   response.tracks = await Promise.all(data.map(async (t) => {
-    return await getSpotifyTrackObject(t.spotifyId)
+    return await getSpotifyTrackObject(t)
   }));
   return response;
 }

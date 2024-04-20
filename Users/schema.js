@@ -25,7 +25,6 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
       }],
       likedTracks: [{
-        ref: "Tracks",
         type: String,
       }]
     },
