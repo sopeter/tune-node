@@ -1,4 +1,6 @@
 import * as dao from "./dao.js";
+import * as likesDao from "../Tune/Likes/dao.js"
+import * as socialDao from "../Tune/Social/dao.js"
 
 export default function UserRoutes(app) {
   const createUser = async (req, res) => {
@@ -7,7 +9,22 @@ export default function UserRoutes(app) {
   };
 
   const deleteUser = async (req, res) => {
-    const status = await dao.deleteUser(req.params.userId);
+    const { userId } = req.params;
+
+    const user = await dao.findUserById(userId);
+
+    try {
+      await Promise.all(user.following.map(
+          async (id) => await socialDao.userUnfollowsUser(userId, id)));
+      await Promise.all(user.likedTracks.map(
+          async (id) => await likesDao.userUnlikesTrack(userId, id)));
+      await Promise.all(user.followers.map(
+          async (id) => await socialDao.userUnfollowsUser(id, userId)));
+    } catch (e) {
+      console.warn(`Error while deleting user and relationships: ${e}`);
+    }
+
+    const status = await dao.deleteUser(userId);
     res.json(status);
   };
 
