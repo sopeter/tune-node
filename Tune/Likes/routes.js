@@ -18,6 +18,12 @@ export default function LikeRoutes(app) {
     res.sendStatus(200);
   }
 
+  const unlikeTrackWithUserId = async (req, res) => {
+    const request = req.body;
+    await dao.userUnlikesTrack(req.body.userId, req.body.trackId);
+    res.sendStatus(200);
+  }
+
   const getAllLikedTracks = async (req, res) => {
     const currentUser = req.session.currentUser
     const likedTracks = await dao.findAllLikedTracks(currentUser._id);
@@ -40,6 +46,7 @@ export default function LikeRoutes(app) {
   }
 
   app.post("/api/likes/track", likeTrack);
+  app.delete("/api/likes/track/admin", unlikeTrackWithUserId);
   app.delete("/api/likes/track/:trackId", unlikeTrack);
   app.get("/api/likes/track", getAllLikedTracks);
   app.get("/api/likes/likePlaylist", getAllLikedTracksPlaylist);
