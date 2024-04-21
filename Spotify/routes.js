@@ -36,7 +36,6 @@ export default async function SpotifyRoutes(app) {
         'Authorization': 'Bearer ' + accessToken.toString(),
       },
     };
-
     try {
       const response = await axios.get(authOptions.url,
           { headers: authOptions.headers });
